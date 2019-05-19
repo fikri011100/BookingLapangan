@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".dialogfragment.TanggalFragment">
+
+    <Button
+        android:id="@+id/button_select_tanggal"
+        style="?attr/borderlessButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_border_gray"
+        android:text="tanggal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/button_select_jam"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_select_jam"
+        style="?attr/borderlessButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_border_gray"
+        android:text="jam"
+        app:layout_constraintLeft_toRightOf="@+id/button_select_tanggal"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <DatePicker
+        android:id="@+id/datepicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_select_tanggal"></DatePicker>
+
+    <TimePicker
+        android:id="@+id/timepicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_select_tanggal"></TimePicker>
+
+    <TextView
+        android:id="@+id/textview_durasi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="Durasi (jam)"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="@+id/datepicker"
+        app:layout_constraintTop_toBottomOf="@+id/datepicker" />
+
+
+    <TextView
+        android:id="@+id/textview_decrease"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/background_border_gray"
+        android:paddingLeft="15dp"
+        android:paddingTop="5dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="6dp"
+        android:text="-"
+        android:textSize="20dp"
+        app:layout_constraintLeft_toRightOf="@+id/textview_durasi"
+        app:layout_constraintTop_toBottomOf="@+id/datepicker" />
+
+    <TextView
+        android:id="@+id/textview_result"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/background_border_gray"
+        android:paddingLeft="15dp"
+        android:paddingTop="5dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="6dp"
+        android:text="1"
+        android:textSize="20dp"
+        app:layout_constraintLeft_toRightOf="@+id/textview_decrease"
+        app:layout_constraintTop_toBottomOf="@+id/datepicker" />
+
+    <TextView
+        android:id="@+id/textview_increase"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/background_border_gray"
+        android:paddingLeft="15dp"
+        android:paddingTop="5dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="6dp"
+        android:text="+"
+        android:textSize="20dp"
+        app:layout_constraintLeft_toRightOf="@+id/textview_result"
+        app:layout_constraintTop_toBottomOf="@+id/datepicker" />
+
+    <Button
+        android:id="@+id/button_tanggal"
+        style="?attr/borderlessButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_curve_green"
+        android:text="selesai"
+        android:layout_marginTop="10dp"
+        android:textColor="@android:color/white"
+        app:layout_constraintLeft_toLeftOf="@+id/datepicker"
+        app:layout_constraintRight_toRightOf="@+id/datepicker"
+        app:layout_constraintTop_toBottomOf="@+id/textview_increase" />
+
+</android.support.constraint.ConstraintLayout>

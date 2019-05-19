@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Mamen Sport</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="register_atas">Register Akun</string>
+    <string name="lorem_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras a pharetra diam. Mauris dui libero, posuere in bibendum id, luctus tristique nisl. Fusce at iaculis leo. Fusce sed nulla vel nulla dictum ultricies posuere vel lacus. Nam sed elit id sem euismod viverra. Curabitur facilisis hendrerit neque, id sodales libero efficitur vitae. Curabitur sit amet rhoncus odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec porttitor justo vel blandit maximus. Etiam dictum pellentesque erat, et lacinia ex elementum et. In nec hendrerit nisl. Maecenas id varius ipsum. Etiam ut fringilla sapien</string>
+    <string name="carabookingcaption">1. Klik menu booking \n 2. pilih tanggal, jam dan durasinya \n 3. tunggu beberapa saat hingga daftar lapangan tersedia oleh sistem muncul \n 4. jika sudah muncul pilih lapangan beberapa yang akan anda booking \n 5. jika berhasil, maka tiket anda ada di menu tiket yg ada di bawah</string>
+    <string name="carapembayarancaption">Untuk melakukan pembayaran pemesanan lapangan, sementara hanya berlaku sistem pembayaran tunai yang dapat Anda lakukan di lokasi. Kedepannya kami akan memberlakukan sistem pembayaran digital, beberapa pilihan metode pembayaran di antaranya adalah seperti transfer antar bank, melalui ATM, Kartu Kredit, Deposit, dan lain-lain</string>
+    <string name="carapembatalancaption">Cara Pembatalan \n ntuk pembatalan jadwal booking anda cukup ke menu Ticket. lalu klik tombol Batal pada tiket booking yang anda ingin batalkan dan tunggu hingga aplikasi memberi notifikasinya \n \n Cara Pergantian Jadwal \n 1. Klik menu Ticket \n 2. klik tombol Atur Ulang \n 3. Masukkan tanggal, jam dan durasi baru anda \n 4. tunggu beberapa saat hingga daftar lapangan tersedia oleh sistem muncul \n 5. jika sudah muncul pilih lapangan berapa yang akan anda booking \n 6. saat anda sudah pilih lapangan baru yang akan booking, sistem akan menunjukkan tiket lama anda dengan tiket yang baru \n 7. jika anda klik tombol Ganti Jadwal Baru untuk merubah jadwal booking anda dan jika anda klik Pakai Jadwal Lama sistem akan membatalkan perubahan yang baru</string>
+    <string name="biayabookingcaption">Biaya Per Jam \n 1. 06.00 - 10.00 = Rp. 50.000 \n 2. 10.00 - 16.00 = Rp. 75.000 \n 3. 16.00 - 00.00 = Rp. 100.000 \n 4. 00.00 - 02.00 = Rp. 75.000</string>
+    <string name="ketentuanumum">1. Bisa memesan lapangan disemua hari \n 2. Booking dibuka dari pukul 06.00 s/d 02.00 \n 3. Tidak ada ketentuan lain \n 4. Tidak ada diskon\n 5. Tunai di lokasi</string>
+    <string name="ketentuansekolah">1. Bisa memesan lapangan di hari senin-jumat \n 2. Jam booking dibuka dari pukul 06.00 s/d 16,00 \n 3. Anak sekolah \n 4. Diskon 10% \n 5. Pembayaran tunai di lokasi</string>
+    <string name="ketentuanturney">1. Bisa memesan lapangan disemua hari \n 2. Jam booking dibuka dari pukul 06.00 s/d 02.00 \n 3. Durasi booking minimal 2 jam \n 4. Diskon 10% \n 5. Tunai di lokasi, lunas dimuka</string>
+    <string name="ketentuananak">1 Sabtu dan Minggu \n 2. Jam booking dibuka dari pukul 06.00 s/d 10.00 \n 3. Anak usia dibawah 15 tahun \n 4. Diskon 10% \n 5. Tunai di lokasi</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
