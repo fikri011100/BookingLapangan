@@ -36,14 +36,19 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_select_tanggal"></DatePicker>
 
-    <TimePicker
+    <EditText
         android:id="@+id/timepicker"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:timePickerMode="spinner"
+        android:inputType="number"
         android:visibility="gone"
+        android:maxLength="2"
+        android:hint="masukkan jam main"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_select_tanggal"></TimePicker>
+        app:layout_constraintBottom_toBottomOf="@+id/textview_durasi"
+        app:layout_constraintTop_toBottomOf="@+id/button_select_tanggal"/>
 
     <TextView
         android:id="@+id/textview_durasi"

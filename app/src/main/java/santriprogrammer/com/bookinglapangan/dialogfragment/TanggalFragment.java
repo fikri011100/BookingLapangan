@@ -11,8 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -41,8 +41,6 @@ public class TanggalFragment extends DialogFragment {
     Button buttonSelectTanggal;
     @BindView(R.id.button_select_jam)
     Button buttonSelectJam;
-    @BindView(R.id.timepicker)
-    TimePicker timepicker;
     @BindView(R.id.textview_decrease)
     TextView textviewDecrease;
     @BindView(R.id.textview_result)
@@ -50,6 +48,8 @@ public class TanggalFragment extends DialogFragment {
     @BindView(R.id.textview_increase)
     TextView textviewIncrease;
     int totalJam;
+    @BindView(R.id.timepicker)
+    EditText timepicker;
 
     public TanggalFragment() {
         // Required empty public constructor
@@ -69,18 +69,14 @@ public class TanggalFragment extends DialogFragment {
         buttonTanggal.setOnClickListener(v -> {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
             Calendar calendar = Calendar.getInstance();
-            Calendar calendar2 = Calendar.getInstance();
             calendar.set(datepicker.getYear(), datepicker.getMonth(), datepicker.getDayOfMonth());
-            calendar2.set(timepicker.getHour(), timepicker.getMinute());
-            String hour = timepicker.getHour() + "";
-            if (timepicker.getHour() < 10) {
-                hour = "0" + timepicker.getHour();
+            String hour =  "";
+            int edt = Integer.parseInt(timepicker.getText().toString());
+            if (edt < 10) {
+                hour = "0" + timepicker.getText().toString();
             }
-            String min = timepicker.getMinute() + "";
-            if (timepicker.getMinute() < 10)
-                min = "0" + timepicker.getMinute();
             String date = dateFormat.format(calendar.getTime());
-            String finalhour = hour + ":" + min;
+            String finalhour = hour + ":00";
             EventBus.getDefault().post(new TanggalEventBus.EventBus(date, finalhour, totalJam));
             dismiss();
         });
