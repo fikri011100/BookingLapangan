@@ -1,7 +1,13 @@
 package santriprogrammer.com.bookinglapangan.ticket;
 
+import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,6 +77,11 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
                     viewHolder.buttonBatal.setVisibility(View.GONE);
                     viewHolder.textviewCanceled.setVisibility(View.VISIBLE);
                     notifyDataSetChanged();
+                    Fragment currentFragment = ((AppCompatActivity)context).getSupportFragmentManager().findFragmentById(R.id.framelayout);
+                    FragmentTransaction fragmentTransaction = ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.detach(currentFragment);
+                    fragmentTransaction.attach(currentFragment);
+                    fragmentTransaction.commit();
                 }
 
                 @Override
