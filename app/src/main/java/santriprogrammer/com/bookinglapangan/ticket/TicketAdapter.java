@@ -1,11 +1,8 @@
 package santriprogrammer.com.bookinglapangan.ticket;
 
-import android.app.Activity;
 import android.content.Context;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -51,13 +48,17 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         Booking itemList = list.get(i);
         if (itemList.getBookingStatus().equals("1")) {
+            //dibatalkan
             viewHolder.buttonBatal.setVisibility(View.GONE);
             viewHolder.textviewCanceled.setVisibility(View.VISIBLE);
+            viewHolder.textviewCanceled.setText("Pesanan telah dibatalkan");
         } else if (itemList.getBookingStatus().equals("2")) {
+            //dikonfirmasi
             viewHolder.buttonBatal.setVisibility(View.GONE);
             viewHolder.textviewCanceled.setVisibility(View.VISIBLE);
             viewHolder.textviewCanceled.setText("Pesanan sudah Dikonfirmasi");
         } else if (itemList.getBookingStatus().equals("0")) {
+            //belum dikonfirmasi
             viewHolder.buttonBatal.setVisibility(View.VISIBLE);
             viewHolder.textviewCanceled.setVisibility(View.GONE);
         }

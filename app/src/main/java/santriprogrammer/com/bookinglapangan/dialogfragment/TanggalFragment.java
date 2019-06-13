@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -49,7 +49,8 @@ public class TanggalFragment extends DialogFragment {
     TextView textviewIncrease;
     int totalJam;
     @BindView(R.id.timepicker)
-    EditText timepicker;
+    Spinner timepicker;
+    private Spinner spinner;
 
     public TanggalFragment() {
         // Required empty public constructor
@@ -70,13 +71,8 @@ public class TanggalFragment extends DialogFragment {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
             Calendar calendar = Calendar.getInstance();
             calendar.set(datepicker.getYear(), datepicker.getMonth(), datepicker.getDayOfMonth());
-            String hour =  "";
-            int edt = Integer.parseInt(timepicker.getText().toString());
-            if (edt < 10) {
-                hour = "0" + timepicker.getText().toString();
-            }
             String date = dateFormat.format(calendar.getTime());
-            String finalhour = hour + ":00";
+            String finalhour = timepicker.getSelectedItem().toString() + ":00";
             EventBus.getDefault().post(new TanggalEventBus.EventBus(date, finalhour, totalJam));
             dismiss();
         });
