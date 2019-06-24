@@ -54,6 +54,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         if (item.getBookingStatus().equals("0")) {
             viewHolder.imageviewBookingAdmin.setImageResource(R.drawable.ic_info_gray);
             viewHolder.textviewStatus.setText("Belum dikonfirmasi");
+            viewHolder.buttonKonfirmasi.setVisibility(View.VISIBLE);
         } else if (item.getBookingStatus().equals("1")) {
             viewHolder.imageviewBookingAdmin.setImageResource(R.drawable.ic_cancel);
             viewHolder.textviewStatus.setText("Telah Dibatalkan");
