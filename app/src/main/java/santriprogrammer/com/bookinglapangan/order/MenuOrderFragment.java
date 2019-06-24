@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +23,7 @@ import butterknife.Unbinder;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import santriprogrammer.com.bookinglapangan.EmptyRecyclerview;
 import santriprogrammer.com.bookinglapangan.R;
 import santriprogrammer.com.bookinglapangan.SessionManager;
 import santriprogrammer.com.bookinglapangan.books.BookingActivity;
@@ -97,10 +97,10 @@ public class MenuOrderFragment extends Fragment {
     ImageView imageMainKids;
     @BindView(R.id.cons_list_books)
     ConstraintLayout consListBooks;
-    @BindView(R.id.recyclerview_list_lapangan)
-    RecyclerView recyclerviewListLapangan;
     APIInterface apiInterface;
     MenuOrderFragmentAdapter adapter;
+    @BindView(R.id.recyclerview_list_lapangan)
+    EmptyRecyclerview recyclerviewListLapangan;
 
     public MenuOrderFragment() {
         // Required empty public constructor

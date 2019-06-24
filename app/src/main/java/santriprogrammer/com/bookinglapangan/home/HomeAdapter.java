@@ -29,6 +29,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     List<Booking> list;
     Context context;
+
     public HomeAdapter(List<Booking> list, Context context) {
         this.list = list;
         this.context = context;
@@ -119,7 +120,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return list.size();
+        if (list == null) {
+            return 0;
+        } else {
+            return list.size();
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

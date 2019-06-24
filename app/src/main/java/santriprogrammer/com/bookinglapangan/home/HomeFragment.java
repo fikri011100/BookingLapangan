@@ -123,7 +123,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<PojoBookingAdmin> call, Throwable t) {
-                Toast.makeText(getActivity(), "Maaf, koneksi anda tidak stabil", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Maaf, Koneksi anda tidak stabil", Toast.LENGTH_SHORT).show();
             }
         });
     }

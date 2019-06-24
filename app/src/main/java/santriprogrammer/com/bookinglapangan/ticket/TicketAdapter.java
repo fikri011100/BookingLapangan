@@ -102,7 +102,11 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return list.size();
+        if (list == null) {
+            return 0;
+        } else {
+            return list.size();
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

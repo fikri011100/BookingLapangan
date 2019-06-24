@@ -68,7 +68,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textview_tanggal" />
 
 
-    <android.support.v7.widget.RecyclerView
+    <santriprogrammer.com.bookinglapangan.EmptyRecyclerview
         android:id="@+id/recyclerview_booking"
         android:layout_width="0dp"
         android:layout_height="0dp"

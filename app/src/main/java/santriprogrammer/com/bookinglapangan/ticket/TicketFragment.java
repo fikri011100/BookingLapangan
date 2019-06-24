@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +19,7 @@ import butterknife.Unbinder;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import santriprogrammer.com.bookinglapangan.EmptyRecyclerview;
 import santriprogrammer.com.bookinglapangan.R;
 import santriprogrammer.com.bookinglapangan.SessionManager;
 import santriprogrammer.com.bookinglapangan.retrofit.APIClient;
@@ -33,13 +33,13 @@ import santriprogrammer.com.bookinglapangan.retrofit.PojoTicket;
 public class TicketFragment extends Fragment {
 
 
-    @BindView(R.id.recyclerview_ticket)
-    RecyclerView recyclerviewTicket;
     APIInterface apiInterface;
     SessionManager sessionManager;
     ProgressDialog pDialog;
     Unbinder unbinder;
     TicketAdapter adapter;
+    @BindView(R.id.recyclerview_ticket)
+    EmptyRecyclerview recyclerviewTicket;
 
     public TicketFragment() {
         // Required empty public constructor

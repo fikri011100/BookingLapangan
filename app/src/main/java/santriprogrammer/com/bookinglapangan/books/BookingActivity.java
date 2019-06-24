@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +28,7 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import santriprogrammer.com.bookinglapangan.EmptyRecyclerview;
 import santriprogrammer.com.bookinglapangan.R;
 import santriprogrammer.com.bookinglapangan.SessionManager;
 import santriprogrammer.com.bookinglapangan.dialogfragment.TanggalFragment;
@@ -46,8 +46,6 @@ public class BookingActivity extends AppCompatActivity {
     ImageView imageTanggal;
     @BindView(R.id.textview_total)
     TextView textviewTotal;
-    @BindView(R.id.recyclerview_booking)
-    RecyclerView recyclerviewBooking;
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
     SimpleDateFormat dateFormat;
@@ -59,6 +57,8 @@ public class BookingActivity extends AppCompatActivity {
     SessionManager sessionManager;
     List<Lapangan> lapangans;
     Calendar newDate;
+    @BindView(R.id.recyclerview_booking)
+    EmptyRecyclerview recyclerviewBooking;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

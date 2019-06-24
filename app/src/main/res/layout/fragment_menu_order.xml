@@ -403,7 +403,7 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <santriprogrammer.com.bookinglapangan.EmptyRecyclerview
         android:id="@+id/recyclerview_list_lapangan"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
