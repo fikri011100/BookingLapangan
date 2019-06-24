@@ -61,6 +61,11 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
             //belum dikonfirmasi
             viewHolder.buttonBatal.setVisibility(View.VISIBLE);
             viewHolder.textviewCanceled.setVisibility(View.GONE);
+        } else if (itemList.getBookingStatus().equals("3")) {
+            //di tolak
+            viewHolder.buttonBatal.setVisibility(View.GONE);
+            viewHolder.textviewCanceled.setVisibility(View.VISIBLE);
+            viewHolder.textviewCanceled.setText("Pesanan telah ditolak");
         }
         viewHolder.textviewHarga.setText(itemList.getBookingPrice());
         viewHolder.textviewTanggal.setText(itemList.getBookingDates());

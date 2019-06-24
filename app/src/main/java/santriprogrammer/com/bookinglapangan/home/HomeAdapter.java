@@ -29,7 +29,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     List<Booking> list;
     Context context;
-
     public HomeAdapter(List<Booking> list, Context context) {
         this.list = list;
         this.context = context;
@@ -51,17 +50,32 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         viewHolder.textviewKategori.setText(item.getBookingCategory());
         viewHolder.textviewHarga.setText("Rp. " + item.getBookingPrice());
         viewHolder.textviewUser.setText(item.getBookingUserEmail());
-        if (item.getBookingStatus().equals("0")) {
+        viewHolder.textviewLapangan.setSelected(true);
+        viewHolder.textviewDurasi.setSelected(true);
+        viewHolder.textviewJam.setSelected(true);
+        viewHolder.textviewKategori.setSelected(true);
+        viewHolder.textviewHarga.setSelected(true);
+        viewHolder.textviewUser.setSelected(true);
+        viewHolder.buttonKonfirmasi.setVisibility(View.VISIBLE);
+        viewHolder.buttonBatal.setVisibility(View.VISIBLE);
+        if (list.get(i).getBookingStatus().equals("0")) {
             viewHolder.imageviewBookingAdmin.setImageResource(R.drawable.ic_info_gray);
             viewHolder.textviewStatus.setText("Belum dikonfirmasi");
-        } else if (item.getBookingStatus().equals("1")) {
+        } else if (list.get(i).getBookingStatus().equals("1")) {
             viewHolder.imageviewBookingAdmin.setImageResource(R.drawable.ic_cancel);
             viewHolder.textviewStatus.setText("Telah Dibatalkan");
             viewHolder.buttonKonfirmasi.setVisibility(View.GONE);
-        } else if (item.getBookingStatus().equals("2")) {
+            viewHolder.buttonBatal.setVisibility(View.GONE);
+        } else if (list.get(i).getBookingStatus().equals("2")) {
             viewHolder.imageviewBookingAdmin.setImageResource(R.drawable.ic_check_circle_black_24dp);
             viewHolder.textviewStatus.setText("Sudah Dikonfirmasi");
             viewHolder.buttonKonfirmasi.setVisibility(View.GONE);
+            viewHolder.buttonBatal.setVisibility(View.GONE);
+        } else if (list.get(i).getBookingStatus().equals("3")) {
+            viewHolder.imageviewBookingAdmin.setImageResource(R.drawable.ic_cancel);
+            viewHolder.textviewStatus.setText("Telah Ditolak");
+            viewHolder.buttonKonfirmasi.setVisibility(View.GONE);
+            viewHolder.buttonBatal.setVisibility(View.GONE);
         }
         viewHolder.buttonKonfirmasi.setOnClickListener(v -> {
             APIInterface req = APIClient.getRetrofit().create(APIInterface.class);
@@ -72,6 +86,25 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
                     Toast.makeText(context, "Pemesanan berhasil dikonfirmasi", Toast.LENGTH_SHORT).show();
                     viewHolder.textviewStatus.setText("Sudah Dikonfirmasi");
                     viewHolder.imageviewBookingAdmin.setImageResource(R.drawable.ic_check_circle_black_24dp);
+                }
+
+                @Override
+                public void onFailure(Call<PojoDeleteTicket> call, Throwable t) {
+                    if (t instanceof IOException) {
+                        Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        });
+        viewHolder.buttonBatal.setOnClickListener(v -> {
+            APIInterface req = APIClient.getRetrofit().create(APIInterface.class);
+            final Call<PojoDeleteTicket> call = req.deleteTicket(item.getBookingId(), "3");
+            call.enqueue(new Callback<PojoDeleteTicket>() {
+                @Override
+                public void onResponse(Call<PojoDeleteTicket> call, Response<PojoDeleteTicket> response) {
+                    Toast.makeText(context, "Pemesanan berhasil dibatalkan", Toast.LENGTH_SHORT).show();
+                    viewHolder.textviewStatus.setText("Sudah Di Tolak");
+                    viewHolder.imageviewBookingAdmin.setImageResource(R.drawable.ic_cancel);
                 }
 
                 @Override
@@ -96,6 +129,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         TextView textviewStatus;
         @BindView(R.id.button_konfirmasi)
         Button buttonKonfirmasi;
+        @BindView(R.id.button_batal)
+        Button buttonBatal;
         @BindView(R.id.textview_lapangan)
         TextView textviewLapangan;
         @BindView(R.id.textview_kategori)

@@ -117,6 +117,7 @@ public class HomeFragment extends Fragment {
                 final List<Booking> bookings = response.body().getBooking();
                 adapter = new HomeAdapter(bookings, getContext());
                 recyclerviewListBooking.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
                 Log.i("response", response.body().toString());
             }
 
