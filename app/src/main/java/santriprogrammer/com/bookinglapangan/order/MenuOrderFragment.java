@@ -26,6 +26,7 @@ import retrofit2.Response;
 import santriprogrammer.com.bookinglapangan.EmptyRecyclerview;
 import santriprogrammer.com.bookinglapangan.R;
 import santriprogrammer.com.bookinglapangan.SessionManager;
+import santriprogrammer.com.bookinglapangan.UploadLapanganActivity;
 import santriprogrammer.com.bookinglapangan.books.BookingActivity;
 import santriprogrammer.com.bookinglapangan.retrofit.APIClient;
 import santriprogrammer.com.bookinglapangan.retrofit.APIInterface;
@@ -101,6 +102,8 @@ public class MenuOrderFragment extends Fragment {
     MenuOrderFragmentAdapter adapter;
     @BindView(R.id.recyclerview_list_lapangan)
     EmptyRecyclerview recyclerviewListLapangan;
+    @BindView(R.id.fab)
+    ImageView fab;
 
     public MenuOrderFragment() {
         // Required empty public constructor
@@ -123,12 +126,17 @@ public class MenuOrderFragment extends Fragment {
 
         if (sessionManager.getUserID().equals("0")) {
             consListBooks.setVisibility(View.GONE);
+            fab.setVisibility(View.VISIBLE);
             recyclerviewListLapangan.setVisibility(View.VISIBLE);
             setRecycler();
         } else {
             recyclerviewListLapangan.setVisibility(View.GONE);
+            fab.setVisibility(View.GONE);
             setView();
         }
+        fab.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), UploadLapanganActivity.class));
+        });
         return view;
     }
 
@@ -142,6 +150,9 @@ public class MenuOrderFragment extends Fragment {
                 final List<Lapangan> lapangans = response.body().getLapangan();
                 adapter = new MenuOrderFragmentAdapter(lapangans, getContext());
                 recyclerviewListLapangan.setAdapter(adapter);
+                if (adapter.getItemCount() == 0) {
+                    Toast.makeText(getActivity(), "Tidak ada Lapangan", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

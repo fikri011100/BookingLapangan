@@ -87,6 +87,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
                     Toast.makeText(context, "Pemesanan berhasil dikonfirmasi", Toast.LENGTH_SHORT).show();
                     viewHolder.textviewStatus.setText("Sudah Dikonfirmasi");
                     viewHolder.imageviewBookingAdmin.setImageResource(R.drawable.ic_check_circle_black_24dp);
+                    viewHolder.buttonKonfirmasi.setVisibility(View.GONE);
+                    viewHolder.buttonBatal.setVisibility(View.GONE);
                 }
 
                 @Override
@@ -106,6 +108,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
                     Toast.makeText(context, "Pemesanan berhasil dibatalkan", Toast.LENGTH_SHORT).show();
                     viewHolder.textviewStatus.setText("Sudah Di Tolak");
                     viewHolder.imageviewBookingAdmin.setImageResource(R.drawable.ic_cancel);
+                    viewHolder.buttonKonfirmasi.setVisibility(View.GONE);
+                    viewHolder.buttonBatal.setVisibility(View.GONE);
                 }
 
                 @Override

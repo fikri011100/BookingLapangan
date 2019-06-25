@@ -69,6 +69,9 @@ public class TicketFragment extends Fragment {
                 final List<Booking> bookings = response.body().getBooking();
                 adapter = new TicketAdapter(bookings, getContext());
                 recyclerviewTicket.setAdapter(adapter);
+                if (adapter.getItemCount() == 0) {
+                    Toast.makeText(getActivity(), "Tidak ada Ticket", Toast.LENGTH_SHORT).show();
+                }
                 Log.i("response", response.body().toString());
             }
 

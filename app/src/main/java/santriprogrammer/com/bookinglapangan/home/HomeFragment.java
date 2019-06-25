@@ -63,8 +63,6 @@ public class HomeFragment extends Fragment {
     FragmentManager fragmentManager;
     @BindView(R.id.recyclerview_list_booking)
     RecyclerView recyclerviewListBooking;
-    @BindView(R.id.fab)
-    ImageView fab;
     HomeAdapter adapter;
     @BindView(R.id.cons1)
     ConstraintLayout cons1;
@@ -91,7 +89,6 @@ public class HomeFragment extends Fragment {
         textviewtop.setText("Selamat Datang " + sessionManager.getUsername());
         if (sessionManager.getUserID().equals("0")) {
             recyclerviewListBooking.setVisibility(View.VISIBLE);
-            fab.setVisibility(View.VISIBLE);
             cons1.setVisibility(View.GONE);
             buttonOrder.setVisibility(View.GONE);
             apiInterface = APIClient.getRetrofit().create(APIInterface.class);
@@ -99,13 +96,10 @@ public class HomeFragment extends Fragment {
             getData();
         } else {
             recyclerviewListBooking.setVisibility(View.GONE);
-            fab.setVisibility(View.GONE);
             cons1.setVisibility(View.VISIBLE);
             buttonOrder.setVisibility(View.VISIBLE);
         }
-        fab.setOnClickListener(v -> {
-            startActivity(new Intent(getActivity(), UploadLapanganActivity.class));
-        });
+
         return view;
     }
 
@@ -117,6 +111,9 @@ public class HomeFragment extends Fragment {
                 final List<Booking> bookings = response.body().getBooking();
                 adapter = new HomeAdapter(bookings, getContext());
                 recyclerviewListBooking.setAdapter(adapter);
+                if (adapter.getItemCount() == 0) {
+                    Toast.makeText(getActivity(), "Tidak ada Booking", Toast.LENGTH_SHORT).show();
+                }
                 adapter.notifyDataSetChanged();
                 Log.i("response", response.body().toString());
             }

@@ -51,7 +51,11 @@ public class MenuOrderFragmentAdapter extends RecyclerView.Adapter<MenuOrderFrag
 
     @Override
     public int getItemCount() {
-        return lapangans.size();
+        if (lapangans == null) {
+            return 0;
+        } else {
+            return lapangans.size();
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
