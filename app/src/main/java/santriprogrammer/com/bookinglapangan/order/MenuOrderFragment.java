@@ -123,7 +123,7 @@ public class MenuOrderFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_menu_order, container, false);
         unbinder = ButterKnife.bind(this, view);
-
+        getActivity().setTitle("Menu Order");
         if (sessionManager.getUserID().equals("0")) {
             consListBooks.setVisibility(View.GONE);
             fab.setVisibility(View.VISIBLE);

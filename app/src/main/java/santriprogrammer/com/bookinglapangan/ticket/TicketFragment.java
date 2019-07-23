@@ -20,11 +20,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import santriprogrammer.com.bookinglapangan.EmptyRecyclerview;
+import santriprogrammer.com.bookinglapangan.LocaleUtils;
 import santriprogrammer.com.bookinglapangan.R;
 import santriprogrammer.com.bookinglapangan.SessionManager;
 import santriprogrammer.com.bookinglapangan.retrofit.APIClient;
 import santriprogrammer.com.bookinglapangan.retrofit.APIInterface;
 import santriprogrammer.com.bookinglapangan.retrofit.Booking;
+import santriprogrammer.com.bookinglapangan.retrofit.PojoBookingAdmin;
 import santriprogrammer.com.bookinglapangan.retrofit.PojoTicket;
 
 /**
@@ -52,7 +54,13 @@ public class TicketFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_ticket, container, false);
         unbinder = ButterKnife.bind(this, view);
+        LocaleUtils.initialize(getActivity(), LocaleUtils.INDONESIAN);
         sessionManager = new SessionManager(getActivity());
+        if (sessionManager.getUserID().equals("0")) {
+            getActivity().setTitle("Konfirmasi Tiket");
+        } else {
+            getActivity().setTitle("Tiket");
+        }
         pDialog = new ProgressDialog(getActivity());
         pDialog.setCancelable(false);
         recyclerviewTicket.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -62,10 +70,10 @@ public class TicketFragment extends Fragment {
     }
 
     private void getData() {
-        Call<PojoTicket> call = apiInterface.getTicket(sessionManager.getUsername());
-        call.enqueue(new Callback<PojoTicket>() {
+        Call<PojoBookingAdmin> call = apiInterface.getBookingAdmin(sessionManager.getUsername());
+        call.enqueue(new Callback<PojoBookingAdmin>() {
             @Override
-            public void onResponse(Call<PojoTicket> call, Response<PojoTicket> response) {
+            public void onResponse(Call<PojoBookingAdmin> call, Response<PojoBookingAdmin> response) {
                 final List<Booking> bookings = response.body().getBooking();
                 adapter = new TicketAdapter(bookings, getContext());
                 recyclerviewTicket.setAdapter(adapter);
@@ -76,7 +84,7 @@ public class TicketFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<PojoTicket> call, Throwable t) {
+            public void onFailure(Call<PojoBookingAdmin> call, Throwable t) {
                 Toast.makeText(getActivity(), "Maaf, koneksi anda tidak stabil", Toast.LENGTH_SHORT).show();
             }
         });

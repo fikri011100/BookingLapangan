@@ -49,7 +49,7 @@ public class UserFragment extends Fragment {
     Button buttonLogout;
 
     public UserFragment() {
-        // Required empty public constructor
+
     }
 
 
@@ -60,6 +60,7 @@ public class UserFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user, container, false);
         unbinder = ButterKnife.bind(this, view);
         sessionManager = new SessionManager(getActivity());
+        getActivity().setTitle("User");
         apiInterface = APIClient.getRetrofit().create(APIInterface.class);
         pDialog = new ProgressDialog(getActivity());
         pDialog.setCancelable(false);

@@ -6,6 +6,7 @@
     android:layout_margin="10dp"
     app:cardBackgroundColor="@android:color/white"
     app:cardCornerRadius="8dp"
+    android:id="@+id/card"
     app:cardElevation="10dp">
 
     <android.support.constraint.ConstraintLayout
@@ -126,21 +127,21 @@
             app:layout_constraintTop_toBottomOf="@+id/textview_jam_caption" />
 
         <TextView
-            android:id="@+id/textview_harga_caption"
+            android:id="@+id/textview_status_caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:text="Harga : "
+            android:text="Status : "
             android:textSize="15sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textview_durasi" />
 
         <TextView
-            android:id="@+id/textview_harga"
+            android:id="@+id/textview_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:text="100.000"
+            android:text="sudah dikonfirmasi"
             android:textColor="@android:color/black"
             android:textSize="15sp"
             app:layout_constraintLeft_toRightOf="@+id/guideline2"
@@ -157,7 +158,7 @@
             android:textColor="@android:color/white"
             app:layout_constraintLeft_toLeftOf="@+id/guideline2"
             app:layout_constraintRight_toRightOf="@+id/image_dotted"
-            app:layout_constraintTop_toBottomOf="@+id/textview_harga" />
+            app:layout_constraintTop_toBottomOf="@+id/textview_status" />
 
         <TextView
             android:id="@+id/textview_canceled"
@@ -170,7 +171,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textview_harga" />
+            app:layout_constraintTop_toBottomOf="@+id/textview_status" />
 
     </android.support.constraint.ConstraintLayout>
 

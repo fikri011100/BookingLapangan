@@ -51,6 +51,12 @@ public interface APIInterface {
     );
 
     @FormUrlEncoded
+    @POST("gettransferbook.php")
+    Call<PojoTransferBooking> getTransferBooking(
+            @Field("id_booking") String bookingId
+    );
+
+    @FormUrlEncoded
     @POST("upload_booking.php")
     Call<PojoUploadBooking> postBooking(
             @Field("booking_user_email") String user_id,
@@ -65,5 +71,11 @@ public interface APIInterface {
 
     @GET("show_lapangan.php")
     Call<PojoLapangan> getLapangan();
+
+    @GET("getNews.php")
+    Call<PojoNews> getNews();
+
+    @GET("getAllBooking.php")
+    Call<PojoAllBooking> getAllBooking();
 
 }

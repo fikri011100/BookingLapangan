@@ -77,6 +77,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             viewHolder.textviewStatus.setText("Telah Ditolak");
             viewHolder.buttonKonfirmasi.setVisibility(View.GONE);
             viewHolder.buttonBatal.setVisibility(View.GONE);
+        }  else if (list.get(i).getBookingStatus().equals("5")) {
+            viewHolder.imageviewBookingAdmin.setImageResource(R.drawable.ic_check_circle_black_24dp);
+            viewHolder.textviewStatus.setText("Sudah Dibayar");
+            viewHolder.buttonKonfirmasi.setVisibility(View.GONE);
+            viewHolder.buttonBatal.setVisibility(View.GONE);
         }
         viewHolder.buttonKonfirmasi.setOnClickListener(v -> {
             APIInterface req = APIClient.getRetrofit().create(APIInterface.class);

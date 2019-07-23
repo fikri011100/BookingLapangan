@@ -50,6 +50,8 @@ public class TanggalFragment extends DialogFragment {
     int totalJam;
     @BindView(R.id.timepicker)
     Spinner timepicker;
+    @BindView(R.id.text_caption_spinner)
+    TextView textCaptionSpinner;
     private Spinner spinner;
 
     public TanggalFragment() {
@@ -72,8 +74,7 @@ public class TanggalFragment extends DialogFragment {
             Calendar calendar = Calendar.getInstance();
             calendar.set(datepicker.getYear(), datepicker.getMonth(), datepicker.getDayOfMonth());
             String date = dateFormat.format(calendar.getTime());
-            String finalhour = timepicker.getSelectedItem().toString() + ":00";
-            EventBus.getDefault().post(new TanggalEventBus.EventBus(date, finalhour, totalJam));
+            EventBus.getDefault().post(new TanggalEventBus.EventBus(date, timepicker.getSelectedItem().toString(), totalJam));
             dismiss();
         });
         return view;
@@ -103,11 +104,13 @@ public class TanggalFragment extends DialogFragment {
     public void onButtonSelectTanggalClicked() {
         datepicker.setVisibility(View.VISIBLE);
         timepicker.setVisibility(View.INVISIBLE);
+        textCaptionSpinner.setVisibility(View.INVISIBLE);
     }
 
     @OnClick(R.id.button_select_jam)
     public void onButtonSelectJamClicked() {
         timepicker.setVisibility(View.VISIBLE);
+        textCaptionSpinner.setVisibility(View.VISIBLE);
         datepicker.setVisibility(View.INVISIBLE);
     }
 }

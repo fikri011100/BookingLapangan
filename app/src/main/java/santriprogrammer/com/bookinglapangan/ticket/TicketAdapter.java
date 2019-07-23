@@ -1,10 +1,12 @@
 package santriprogrammer.com.bookinglapangan.ticket;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +24,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import santriprogrammer.com.bookinglapangan.R;
+import santriprogrammer.com.bookinglapangan.StringHelper;
+import santriprogrammer.com.bookinglapangan.buktitransfer.UploadBuktiTransferActivity;
 import santriprogrammer.com.bookinglapangan.retrofit.APIClient;
 import santriprogrammer.com.bookinglapangan.retrofit.APIInterface;
 import santriprogrammer.com.bookinglapangan.retrofit.Booking;
@@ -66,9 +70,14 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
             viewHolder.buttonBatal.setVisibility(View.GONE);
             viewHolder.textviewCanceled.setVisibility(View.VISIBLE);
             viewHolder.textviewCanceled.setText("Pesanan telah ditolak");
+        }  else if (itemList.getBookingStatus().equals("5")) {
+            //di tolak
+            viewHolder.buttonBatal.setVisibility(View.GONE);
+            viewHolder.textviewCanceled.setVisibility(View.VISIBLE);
+            viewHolder.textviewCanceled.setText("Sudah Dibayar");
         }
-        viewHolder.textviewHarga.setText(itemList.getBookingPrice());
-        viewHolder.textviewTanggal.setText(itemList.getBookingDates());
+        viewHolder.textviewStatus.setText(StringHelper.convertFormatPrice(itemList.getBookingPrice()));
+        viewHolder.textviewTanggal.setText(StringHelper.formatDate(itemList.getBookingDates()));
         viewHolder.textviewLapangan.setText(itemList.getBookingPlace());
         viewHolder.textviewKategori.setText(itemList.getBookingCategory());
         viewHolder.textviewJam.setText(itemList.getBookingHour());
@@ -83,8 +92,8 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
                     viewHolder.buttonBatal.setVisibility(View.GONE);
                     viewHolder.textviewCanceled.setVisibility(View.VISIBLE);
                     notifyDataSetChanged();
-                    Fragment currentFragment = ((AppCompatActivity)context).getSupportFragmentManager().findFragmentById(R.id.framelayout);
-                    FragmentTransaction fragmentTransaction = ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction();
+                    Fragment currentFragment = ((AppCompatActivity) context).getSupportFragmentManager().findFragmentById(R.id.framelayout);
+                    FragmentTransaction fragmentTransaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.detach(currentFragment);
                     fragmentTransaction.attach(currentFragment);
                     fragmentTransaction.commit();
@@ -97,6 +106,13 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
                     }
                 }
             });
+        });
+        viewHolder.card.setOnClickListener(v -> {
+            Intent intent = new Intent(context.getApplicationContext(), UploadBuktiTransferActivity.class);
+            intent.putExtra("id_booking", itemList.getBookingId());
+            intent.putExtra("status", itemList.getBookingStatus());
+            v.getContext().startActivity(intent);
+//            Toast.makeText(context, itemList.getBookingId(), Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -118,18 +134,23 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         TextView textviewKategori;
         @BindView(R.id.textview_jam)
         TextView textviewJam;
-        @BindView(R.id.textview_harga)
-        TextView textviewHarga;
         @BindView(R.id.button_batal)
         Button buttonBatal;
         @BindView(R.id.textview_canceled)
         TextView textviewCanceled;
         @BindView(R.id.textview_durasi)
         TextView textviewDurasi;
+        @BindView(R.id.card)
+        CardView card;
+        @BindView(R.id.textview_status_caption)
+        TextView textviewStatusCaption;
+        @BindView(R.id.textview_status)
+        TextView textviewStatus;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            textviewStatusCaption.setText("Harga :");
         }
     }
 }
