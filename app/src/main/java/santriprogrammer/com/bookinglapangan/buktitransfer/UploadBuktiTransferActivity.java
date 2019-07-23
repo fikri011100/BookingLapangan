@@ -90,36 +90,40 @@ public class UploadBuktiTransferActivity extends AppCompatActivity {
         status = getIntent().getStringExtra("status");
         requestStoragePermission();
         apiInterface = APIClient.getRetrofit().create(APIInterface.class);
-        if (sessionManager.getUserID().equals("0")) {
+        if (status.equals("5")) {
             layout1.setVisibility(View.GONE);
             layout2.setVisibility(View.VISIBLE);
-            if (status.equals("5")) {
-                Call<PojoTransferBooking> call = apiInterface.getTransferBooking(id_booking);
-                call.enqueue(new Callback<PojoTransferBooking>() {
-                    @Override
-                    public void onResponse(Call<PojoTransferBooking> call, Response<PojoTransferBooking> response) {
-                        final List<BookingTransfer> bookings = response.body().getBookingTransfer();
-                        Glide.with(getApplicationContext())
-                                .load(AppConfig.BASE_URL_IMG + bookings.get(0).getPhotoStruk())
-                                .crossFade()
-                                .placeholder(R.drawable.ic_newsfeed)
-                                .into(imageBuktiTransfer);
-                    }
+            Call<PojoTransferBooking> call = apiInterface.getTransferBooking(id_booking);
+            call.enqueue(new Callback<PojoTransferBooking>() {
+                @Override
+                public void onResponse(Call<PojoTransferBooking> call, Response<PojoTransferBooking> response) {
+                    final List<BookingTransfer> bookings = response.body().getBookingTransfer();
+                    Glide.with(getApplicationContext())
+                            .load(AppConfig.BASE_URL_IMG + bookings.get(0).getPhotoStruk())
+                            .crossFade()
+                            .placeholder(R.drawable.ic_newsfeed)
+                            .into(imageBuktiTransfer);
+                }
 
-                    @Override
-                    public void onFailure(Call<PojoTransferBooking> call, Throwable t) {
+                @Override
+                public void onFailure(Call<PojoTransferBooking> call, Throwable t) {
 
-                    }
-                });
-                buttonUpload.setOnClickListener(v -> getConfirmation());
+                }
+            });
+            if (sessionManager.getUserID().equals("0")) {
+                buttonKonfirmasi.setOnClickListener(v -> getConfirmation());
             } else {
-                textviewNoData.setVisibility(View.VISIBLE);
-                imageBuktiTransfer.setVisibility(View.GONE);
                 buttonKonfirmasi.setVisibility(View.GONE);
             }
         } else {
-            layout1.setVisibility(View.VISIBLE);
-            layout2.setVisibility(View.GONE);
+            if (sessionManager.getUserID().equals("0")) {
+                textviewNoData.setVisibility(View.VISIBLE);
+                imageBuktiTransfer.setVisibility(View.GONE);
+                buttonKonfirmasi.setVisibility(View.GONE);
+            } else {
+                layout1.setVisibility(View.VISIBLE);
+                layout2.setVisibility(View.GONE);
+            }
         }
         edittextNominal.addTextChangedListener(new TextWatcher() {
             @Override
@@ -141,7 +145,9 @@ public class UploadBuktiTransferActivity extends AppCompatActivity {
                 });
             }
         });
-        buttonUpload.setOnClickListener(v -> {
+        buttonUpload.setOnClickListener(v ->
+
+        {
             APIInterface req = APIClient.getRetrofit().create(APIInterface.class);
             final Call<PojoDeleteTicket> call = req.deleteTicket(id_booking, "4");
             call.enqueue(new Callback<PojoDeleteTicket>() {
@@ -256,6 +262,7 @@ public class UploadBuktiTransferActivity extends AppCompatActivity {
 
         return path;
     }
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
