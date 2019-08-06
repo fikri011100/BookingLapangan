@@ -51,6 +51,19 @@ public interface APIInterface {
     );
 
     @FormUrlEncoded
+    @POST("editLapangan.php")
+    Call<PojoDeleteTicket> updateLapangan(
+            @Field("field_id") String fieldId,
+            @Field("field_name") String fieldName
+    );
+
+    @FormUrlEncoded
+    @POST("deleteArticle.php")
+    Call<PojoDeleteArticle> deleteArticle(
+            @Field("id_news") String bookingId
+    );
+
+    @FormUrlEncoded
     @POST("gettransferbook.php")
     Call<PojoTransferBooking> getTransferBooking(
             @Field("id_booking") String bookingId

@@ -75,7 +75,7 @@ public class UploadBuktiTransferActivity extends AppCompatActivity {
     private static final int STORAGE_PERMISSION_CODE = 123;
     private Uri filePathAccount;
     private Bitmap bitmapAccount;
-    String id_booking, status;
+    String id_booking, status, price;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,9 +88,10 @@ public class UploadBuktiTransferActivity extends AppCompatActivity {
         sessionManager = new SessionManager(this);
         id_booking = getIntent().getStringExtra("id_booking");
         status = getIntent().getStringExtra("status");
+        price = getIntent().getStringExtra("price");
         requestStoragePermission();
         apiInterface = APIClient.getRetrofit().create(APIInterface.class);
-        if (status.equals("5")) {
+        if (status.equals("4") || status.equals("5")) {
             layout1.setVisibility(View.GONE);
             layout2.setVisibility(View.VISIBLE);
             Call<PojoTransferBooking> call = apiInterface.getTransferBooking(id_booking);
@@ -113,6 +114,9 @@ public class UploadBuktiTransferActivity extends AppCompatActivity {
             if (sessionManager.getUserID().equals("0")) {
                 buttonKonfirmasi.setOnClickListener(v -> getConfirmation());
             } else {
+                buttonKonfirmasi.setVisibility(View.GONE);
+            }
+            if (status.equals("5")) {
                 buttonKonfirmasi.setVisibility(View.GONE);
             }
         } else {
@@ -138,11 +142,15 @@ public class UploadBuktiTransferActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                imageUpload.setOnClickListener(v -> {
-                    setPhoto();
-                    imageUpload.setEnabled(true);
-                    buttonUpload.setEnabled(true);
-                });
+                if (s.toString().equals(price)) {
+                    imageUpload.setOnClickListener(v -> {
+                        setPhoto();
+                        imageUpload.setEnabled(true);
+                        buttonUpload.setEnabled(true);
+                    });
+                } else {
+                    edittextNominal.setError("Nominal harus sesuai dengan harga booking");
+                }
             }
         });
         buttonUpload.setOnClickListener(v ->

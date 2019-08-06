@@ -24,7 +24,7 @@ public class StringHelper {
     }
 
     public static String formatDate(String value) {
-        return formatingDateFromString("yyyy-MM-dd", " EEEE, dd MMM yyyy", value);
+        return formatingDateFromString("dd-MM-yyyy", " EEEE, dd MMM yyyy", value);
     }
 
     public static String formatingDateFromString(String fromFormat, String toFormat,

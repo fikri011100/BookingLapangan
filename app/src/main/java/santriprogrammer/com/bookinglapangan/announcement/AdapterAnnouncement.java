@@ -45,7 +45,7 @@ public class AdapterAnnouncement extends RecyclerView.Adapter<AdapterAnnouncemen
         viewHolder.textviewTanggal.setText(StringHelper.formatDate(booking.getBookingDates()));
         viewHolder.textviewLapangan.setText(booking.getBookingPlace());
         viewHolder.textviewKategori.setText(booking.getBookingCategory());
-        viewHolder.textviewJam.setText(booking.getBookingHour() + " Jam");
+        viewHolder.textviewJam.setText(booking.getBookingHour());
         viewHolder.textviewDurasi.setText(booking.getBookingHourUntil());
         if (list.get(i).getBookingStatus().equals("0")) {
             viewHolder.textviewStatus.setText("Belum dikonfirmasi");
@@ -85,11 +85,14 @@ public class AdapterAnnouncement extends RecyclerView.Adapter<AdapterAnnouncemen
         CardView card;
         @BindView(R.id.textview_status)
         TextView textviewStatus;
+        @BindView(R.id.button_bayar)
+        Button buttonBayar;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             buttonBatal.setVisibility(View.GONE);
+            buttonBayar.setVisibility(View.GONE);
             textviewCanceled.setVisibility(View.GONE);
         }
     }

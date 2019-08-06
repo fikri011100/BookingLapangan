@@ -35,10 +35,12 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
 
     List<Booking> list;
     Context context;
+    String isAdmin;
 
-    public TicketAdapter(List<Booking> bookings, Context activity) {
+    public TicketAdapter(List<Booking> bookings, Context activity, String userID) {
         this.list = bookings;
         this.context = activity;
+        this.isAdmin = userID;
     }
 
     @NonNull
@@ -54,25 +56,52 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         if (itemList.getBookingStatus().equals("1")) {
             //dibatalkan
             viewHolder.buttonBatal.setVisibility(View.GONE);
+            viewHolder.buttonBayar.setVisibility(View.GONE);
             viewHolder.textviewCanceled.setVisibility(View.VISIBLE);
             viewHolder.textviewCanceled.setText("Pesanan telah dibatalkan");
         } else if (itemList.getBookingStatus().equals("2")) {
             //dikonfirmasi
             viewHolder.buttonBatal.setVisibility(View.GONE);
-            viewHolder.textviewCanceled.setVisibility(View.VISIBLE);
-            viewHolder.textviewCanceled.setText("Pesanan sudah Dikonfirmasi");
+            if (isAdmin.equals("0")) {
+                viewHolder.buttonBayar.setText("Konfirmasi");
+            }
+//            viewHolder.textviewCanceled.setVisibility(View.VISIBLE);
+//            viewHolder.textviewCanceled.setText("Pesanan sudah Dikonfirmasi");
         } else if (itemList.getBookingStatus().equals("0")) {
             //belum dikonfirmasi
-            viewHolder.buttonBatal.setVisibility(View.VISIBLE);
-            viewHolder.textviewCanceled.setVisibility(View.GONE);
+            if (isAdmin.equals("0")) {
+                viewHolder.buttonBatal.setVisibility(View.GONE);
+                viewHolder.buttonBayar.setVisibility(View.GONE);
+                viewHolder.textviewCanceled.setVisibility(View.VISIBLE);
+                viewHolder.textviewCanceled.setText("Pesanan belum dikonfirmasi");
+            } else {
+                viewHolder.buttonBatal.setVisibility(View.VISIBLE);
+                viewHolder.buttonBayar.setVisibility(View.VISIBLE);
+                viewHolder.textviewCanceled.setVisibility(View.GONE);
+            }
         } else if (itemList.getBookingStatus().equals("3")) {
             //di tolak
             viewHolder.buttonBatal.setVisibility(View.GONE);
+            viewHolder.buttonBayar.setVisibility(View.GONE);
             viewHolder.textviewCanceled.setVisibility(View.VISIBLE);
             viewHolder.textviewCanceled.setText("Pesanan telah ditolak");
-        }  else if (itemList.getBookingStatus().equals("5")) {
-            //di tolak
+        } else if (itemList.getBookingStatus().equals("4")) {
+            //udah dibayar dan belum dikonfirmasi
+            if (isAdmin.equals("0")) {
+                viewHolder.buttonBatal.setVisibility(View.GONE);
+                viewHolder.buttonBayar.setVisibility(View.VISIBLE);
+                viewHolder.buttonBayar.setText("Konfirmasi");
+                viewHolder.textviewCanceled.setVisibility(View.GONE);
+            } else {
+                viewHolder.buttonBatal.setVisibility(View.GONE);
+                viewHolder.buttonBayar.setVisibility(View.GONE);
+                viewHolder.textviewCanceled.setVisibility(View.VISIBLE);
+                viewHolder.textviewCanceled.setText("Sudah Dibayar & belum dikonfirmasi oleh admin");
+            }
+        } else if (itemList.getBookingStatus().equals("5")) {
+            //udah dibayar
             viewHolder.buttonBatal.setVisibility(View.GONE);
+            viewHolder.buttonBayar.setVisibility(View.GONE);
             viewHolder.textviewCanceled.setVisibility(View.VISIBLE);
             viewHolder.textviewCanceled.setText("Sudah Dibayar");
         }
@@ -107,13 +136,22 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
                 }
             });
         });
-        viewHolder.card.setOnClickListener(v -> {
-            Intent intent = new Intent(context.getApplicationContext(), UploadBuktiTransferActivity.class);
-            intent.putExtra("id_booking", itemList.getBookingId());
-            intent.putExtra("status", itemList.getBookingStatus());
-            v.getContext().startActivity(intent);
-//            Toast.makeText(context, itemList.getBookingId(), Toast.LENGTH_SHORT).show();
-        });
+        if (itemList.getBookingStatus().equals("2") || itemList.getBookingStatus().equals("0") || itemList.getBookingStatus().equals("4")) {
+            viewHolder.buttonBayar.setOnClickListener(v -> {
+                Intent intent = new Intent(context.getApplicationContext(), UploadBuktiTransferActivity.class);
+                intent.putExtra("id_booking", itemList.getBookingId());
+                intent.putExtra("status", itemList.getBookingStatus());
+                intent.putExtra("price", itemList.getBookingPrice());
+                v.getContext().startActivity(intent);
+            });
+        } else if (itemList.getBookingStatus().equals("5")) {
+            viewHolder.card.setOnClickListener(v -> {
+                Intent intent = new Intent(context.getApplicationContext(), UploadBuktiTransferActivity.class);
+                intent.putExtra("id_booking", itemList.getBookingId());
+                intent.putExtra("status", itemList.getBookingStatus());
+                v.getContext().startActivity(intent);
+            });
+        }
     }
 
     @Override
@@ -146,6 +184,8 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         TextView textviewStatusCaption;
         @BindView(R.id.textview_status)
         TextView textviewStatus;
+        @BindView(R.id.button_bayar)
+        Button buttonBayar;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

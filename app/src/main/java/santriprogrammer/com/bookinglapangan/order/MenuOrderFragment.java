@@ -26,7 +26,6 @@ import retrofit2.Response;
 import santriprogrammer.com.bookinglapangan.EmptyRecyclerview;
 import santriprogrammer.com.bookinglapangan.R;
 import santriprogrammer.com.bookinglapangan.SessionManager;
-import santriprogrammer.com.bookinglapangan.UploadLapanganActivity;
 import santriprogrammer.com.bookinglapangan.books.BookingActivity;
 import santriprogrammer.com.bookinglapangan.retrofit.APIClient;
 import santriprogrammer.com.bookinglapangan.retrofit.APIInterface;
@@ -123,19 +122,20 @@ public class MenuOrderFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_menu_order, container, false);
         unbinder = ButterKnife.bind(this, view);
-        getActivity().setTitle("Menu Order");
         if (sessionManager.getUserID().equals("0")) {
+            getActivity().setTitle("Lapangan");
             consListBooks.setVisibility(View.GONE);
             fab.setVisibility(View.VISIBLE);
             recyclerviewListLapangan.setVisibility(View.VISIBLE);
             setRecycler();
         } else {
+            getActivity().setTitle("Menu Order");
             recyclerviewListLapangan.setVisibility(View.GONE);
             fab.setVisibility(View.GONE);
             setView();
         }
         fab.setOnClickListener(v -> {
-            startActivity(new Intent(getActivity(), UploadLapanganActivity.class));
+            startActivity(new Intent(getActivity(), EditLapanganActivity.class));
         });
         return view;
     }

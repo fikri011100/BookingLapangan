@@ -34,7 +34,7 @@ public class AnnouncementActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("Pengumuman");
+        getSupportActionBar().setTitle("Information");
         apiInterface = APIClient.getRetrofit().create(APIInterface.class);
         recyclerAnnouncement.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         getData();

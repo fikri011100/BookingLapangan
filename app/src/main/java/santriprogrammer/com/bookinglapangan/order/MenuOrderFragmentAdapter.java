@@ -1,6 +1,7 @@
 package santriprogrammer.com.bookinglapangan.order;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import santriprogrammer.com.bookinglapangan.AppConfig;
 import santriprogrammer.com.bookinglapangan.R;
+import santriprogrammer.com.bookinglapangan.UploadLapanganActivity;
 import santriprogrammer.com.bookinglapangan.retrofit.Lapangan;
 
 public class MenuOrderFragmentAdapter extends RecyclerView.Adapter<MenuOrderFragmentAdapter.ViewHolder> {
@@ -40,13 +42,20 @@ public class MenuOrderFragmentAdapter extends RecyclerView.Adapter<MenuOrderFrag
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         final Lapangan lapangan = lapangans.get(i);
-        viewHolder.buttonLapangan.setVisibility(View.GONE);
+        viewHolder.buttonLapangan.setText("Edit");
         viewHolder.textLapangan.setText(lapangan.getFieldName());
         Glide.with(context)
                 .load(AppConfig.BASE_URL_IMG + lapangan.getFieldImage())
                 .crossFade()
                 .placeholder(R.mipmap.ic_launcher)
                 .into(viewHolder.imageLapangan);
+        viewHolder.buttonLapangan.setOnClickListener(v -> {
+            Intent intent = new Intent(context.getApplicationContext(), EditLapanganActivity.class);
+            intent.putExtra("field_id", lapangan.getFieldId());
+            intent.putExtra("field_name", lapangan.getFieldName());
+            intent.putExtra("field_image", lapangan.getFieldImage());
+            v.getContext().startActivity(intent);
+        });
     }
 
     @Override

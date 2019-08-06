@@ -76,7 +76,7 @@ public class AddNewsActivity extends AppCompatActivity {
             }
         });
         buttonUpload.setOnClickListener(v -> {
-            Toast.makeText(this, "Berhasil Upload bukti transfer", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Berhasil Upload Artikel", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
         });

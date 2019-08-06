@@ -122,8 +122,8 @@ public class HomeFragment extends Fragment {
     @OnClick(R.id.imagebiayabooking)
     public void onImagebiayabookingClicked() {
         AlertDialog.Builder alertdialogBuilder = new AlertDialog.Builder(getActivity());
-        alertdialogBuilder.setTitle("Biaya Booking");
-        alertdialogBuilder.setMessage(R.string.biayabookingcaption);
+        alertdialogBuilder.setTitle("Warning");
+        alertdialogBuilder.setMessage("Fitur ini masih dalam pengembangan");
         alertdialogBuilder.setPositiveButton("OK, Saya Mengerti", (dialog, which) -> dialog.dismiss());
         alertdialogBuilder.show();
     }

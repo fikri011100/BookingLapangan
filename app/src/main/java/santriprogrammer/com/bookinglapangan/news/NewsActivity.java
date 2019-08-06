@@ -11,6 +11,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -20,6 +23,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import santriprogrammer.com.bookinglapangan.R;
 import santriprogrammer.com.bookinglapangan.SessionManager;
+import santriprogrammer.com.bookinglapangan.eventbus.NewsEventBus;
 import santriprogrammer.com.bookinglapangan.news.addnews.AddNewsActivity;
 import santriprogrammer.com.bookinglapangan.retrofit.APIClient;
 import santriprogrammer.com.bookinglapangan.retrofit.APIInterface;
@@ -59,13 +63,32 @@ public class NewsActivity extends AppCompatActivity {
         });
     }
 
+    @Subscribe
+    public void getTrigg(NewsEventBus.EventBus bus) {
+        if (bus.getTrigg().equals("1")) {
+            getData();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
     private void getData() {
         Call<PojoNews> call = apiInterface.getNews();
         call.enqueue(new Callback<PojoNews>() {
             @Override
             public void onResponse(Call<PojoNews> call, Response<PojoNews> response) {
                 final List<News> bookings = response.body().getNews();
-                adapter = new AdapterNews(bookings, getApplicationContext());
+                adapter = new AdapterNews(bookings, getApplicationContext(), sessionManager.getUserID());
                 recyclerNews.setAdapter(adapter);
                 if (adapter.getItemCount() == 0) {
                     Toast.makeText(getApplicationContext(), "Tidak ada Berita", Toast.LENGTH_SHORT).show();

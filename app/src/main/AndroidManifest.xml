@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".news.addnews.AddNewsActivity"></activity>
+        <activity android:name=".order.EditLapanganActivity"></activity>
+        <activity android:name=".news.addnews.AddNewsActivity" />
         <activity android:name=".ConfirmationActivity" />
         <activity android:name=".announcement.AnnouncementActivity" />
         <activity android:name=".news.detail.DetailNewsActivity" />

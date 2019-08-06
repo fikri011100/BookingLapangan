@@ -58,24 +58,46 @@ public class TicketFragment extends Fragment {
         sessionManager = new SessionManager(getActivity());
         if (sessionManager.getUserID().equals("0")) {
             getActivity().setTitle("Konfirmasi Tiket");
+            recyclerviewTicket.setLayoutManager(new LinearLayoutManager(getActivity()));
+            apiInterface = APIClient.getRetrofit().create(APIInterface.class);
+            getDataAdmin();
         } else {
             getActivity().setTitle("Tiket");
+            recyclerviewTicket.setLayoutManager(new LinearLayoutManager(getActivity()));
+            apiInterface = APIClient.getRetrofit().create(APIInterface.class);
+            getData();
         }
-        pDialog = new ProgressDialog(getActivity());
-        pDialog.setCancelable(false);
-        recyclerviewTicket.setLayoutManager(new LinearLayoutManager(getActivity()));
-        apiInterface = APIClient.getRetrofit().create(APIInterface.class);
-        getData();
         return view;
     }
 
     private void getData() {
+        Call<PojoTicket> call = apiInterface.getTicket(sessionManager.getUsername());
+        call.enqueue(new Callback<PojoTicket>() {
+            @Override
+            public void onResponse(Call<PojoTicket> call, Response<PojoTicket> response) {
+                final List<Booking> bookings = response.body().getBooking();
+                adapter = new TicketAdapter(bookings, getContext(), sessionManager.getUserID());
+                recyclerviewTicket.setAdapter(adapter);
+                if (adapter.getItemCount() == 0) {
+                    Toast.makeText(getActivity(), "Tidak ada Ticket", Toast.LENGTH_SHORT).show();
+                }
+                Log.i("response", response.body().toString());
+            }
+
+            @Override
+            public void onFailure(Call<PojoTicket> call, Throwable t) {
+                Toast.makeText(getActivity(), "Maaf, koneksi anda tidak stabil", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void getDataAdmin() {
         Call<PojoBookingAdmin> call = apiInterface.getBookingAdmin(sessionManager.getUsername());
         call.enqueue(new Callback<PojoBookingAdmin>() {
             @Override
             public void onResponse(Call<PojoBookingAdmin> call, Response<PojoBookingAdmin> response) {
                 final List<Booking> bookings = response.body().getBooking();
-                adapter = new TicketAdapter(bookings, getContext());
+                adapter = new TicketAdapter(bookings, getContext(), sessionManager.getUserID());
                 recyclerviewTicket.setAdapter(adapter);
                 if (adapter.getItemCount() == 0) {
                     Toast.makeText(getActivity(), "Tidak ada Ticket", Toast.LENGTH_SHORT).show();
