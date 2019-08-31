@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,6 +28,7 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.UploadNotificationConfig;
 
+import java.io.FileDescriptor;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -135,7 +138,7 @@ public class EditLapanganActivity extends AppCompatActivity {
 
             }
             try {
-                bitmapAccount = MediaStore.Images.Media.getBitmap(getContentResolver(), filePathAccount);
+                bitmapAccount = getBitmapFromUri(filePathAccount);
                 imagePick.setImageBitmap(bitmapAccount);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -144,27 +147,32 @@ public class EditLapanganActivity extends AppCompatActivity {
     }
 
     public String getPath(Uri uri) {
-        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-        cursor.moveToFirst();
-        String document_id = cursor.getString(0);
-        document_id = document_id.substring(document_id.lastIndexOf(":") + 1);
-        cursor.close();
-
+        Cursor cursor;
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
         cursor = getContentResolver().query(
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
+                uri,
+                filePathColumn, null, null, null);
         cursor.moveToFirst();
-        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+        String path = cursor.getString(columnIndex);
         cursor.close();
 
         return path;
     }
 
+    private Bitmap getBitmapFromUri(Uri uri) throws IOException {
+        ParcelFileDescriptor parcelFileDescriptor =
+                getContentResolver().openFileDescriptor(uri, "r");
+        FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+        Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+        parcelFileDescriptor.close();
+        return image;
+    }
+
     private void setPhoto() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Pilih Gambar"), PICK_IMAGE_REQUEST);
+        Intent i = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(i, PICK_IMAGE_REQUEST);
     }
 
     private void requestStoragePermission() {
