@@ -6,6 +6,9 @@ import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
 public class SessionManager {
+
+    //class for save session of the user entered
+
     private static String TAG = SessionManager.class.getSimpleName();
 
     SharedPreferences pref, adminPref, usernamePref, userIdPref;
