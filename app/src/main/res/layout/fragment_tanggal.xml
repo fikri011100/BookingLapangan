@@ -36,30 +36,25 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_select_tanggal"></DatePicker>
 
-    <EditText
-        android:id="@+id/timepicker"
+    <TextView
+        android:id="@+id/text_caption_spinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:timePickerMode="spinner"
-        android:inputType="number"
+        android:layout_marginLeft="15dp"
+        android:text="Pilih Jam :"
+        android:textColor="@android:color/black"
         android:visibility="gone"
-        android:maxLength="2"
-        android:hint="masukkan jam main"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/textview_durasi"
-        app:layout_constraintTop_toBottomOf="@+id/button_select_tanggal"/>
+        app:layout_constraintTop_toTopOf="@+id/timepicker" />
 
-    <TextView
-        android:id="@+id/textview_durasi"
+    <TimePicker
+        android:id="@+id/timepicker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:text="Durasi (jam)"
-        android:textSize="15sp"
-        app:layout_constraintLeft_toLeftOf="@+id/datepicker"
-        app:layout_constraintTop_toBottomOf="@+id/datepicker" />
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_select_tanggal"></TimePicker>
 
 
     <TextView
@@ -112,9 +107,9 @@
         style="?attr/borderlessButtonStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:background="@drawable/border_curve_green"
         android:text="selesai"
-        android:layout_marginTop="10dp"
         android:textColor="@android:color/white"
         app:layout_constraintLeft_toLeftOf="@+id/datepicker"
         app:layout_constraintRight_toRightOf="@+id/datepicker"

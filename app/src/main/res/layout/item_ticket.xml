@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
@@ -126,21 +127,21 @@
             app:layout_constraintTop_toBottomOf="@+id/textview_jam_caption" />
 
         <TextView
-            android:id="@+id/textview_harga_caption"
+            android:id="@+id/textview_status_caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:text="Harga : "
+            android:text="Status : "
             android:textSize="15sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textview_durasi" />
 
         <TextView
-            android:id="@+id/textview_harga"
+            android:id="@+id/textview_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:text="100.000"
+            android:text="sudah dikonfirmasi"
             android:textColor="@android:color/black"
             android:textSize="15sp"
             app:layout_constraintLeft_toRightOf="@+id/guideline2"
@@ -151,13 +152,28 @@
             style="?attr/borderlessButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/border_curve_red_delete"
             android:text="batal"
             android:textColor="@android:color/white"
-            app:layout_constraintLeft_toLeftOf="@+id/guideline2"
+            app:layout_constraintLeft_toRightOf="@+id/button_bayar"
             app:layout_constraintRight_toRightOf="@+id/image_dotted"
-            app:layout_constraintTop_toBottomOf="@+id/textview_harga" />
+            app:layout_constraintTop_toBottomOf="@+id/textview_status" />
+
+        <Button
+            android:id="@+id/button_bayar"
+            style="?attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/border_curve_green"
+            android:text="bayar"
+            android:textColor="@android:color/white"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/button_batal"
+            app:layout_constraintTop_toBottomOf="@+id/textview_status" />
 
         <TextView
             android:id="@+id/textview_canceled"
@@ -170,7 +186,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textview_harga" />
+            app:layout_constraintTop_toBottomOf="@+id/textview_status" />
 
     </android.support.constraint.ConstraintLayout>
 

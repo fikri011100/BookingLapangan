@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,23 +18,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import santriprogrammer.com.bookinglapangan.ConfirmationActivity;
 import santriprogrammer.com.bookinglapangan.R;
 import santriprogrammer.com.bookinglapangan.SessionManager;
-import santriprogrammer.com.bookinglapangan.UploadLapanganActivity;
+import santriprogrammer.com.bookinglapangan.announcement.AnnouncementActivity;
+import santriprogrammer.com.bookinglapangan.news.NewsActivity;
 import santriprogrammer.com.bookinglapangan.order.MenuOrderFragment;
 import santriprogrammer.com.bookinglapangan.retrofit.APIClient;
 import santriprogrammer.com.bookinglapangan.retrofit.APIInterface;
-import santriprogrammer.com.bookinglapangan.retrofit.Booking;
-import santriprogrammer.com.bookinglapangan.retrofit.PojoBookingAdmin;
 
 
 /**
@@ -44,8 +38,6 @@ import santriprogrammer.com.bookinglapangan.retrofit.PojoBookingAdmin;
 public class HomeFragment extends Fragment {
 
 
-    @BindView(R.id.textviewtop)
-    TextView textviewtop;
     @BindView(R.id.imagecarabook)
     ConstraintLayout imagecarabook;
     @BindView(R.id.imagecarapembayaran)
@@ -54,20 +46,19 @@ public class HomeFragment extends Fragment {
     ConstraintLayout imagecarapembatalan;
     @BindView(R.id.imagebiayabooking)
     ConstraintLayout imagebiayabooking;
-    @BindView(R.id.buttonOrder)
-    ConstraintLayout buttonOrder;
     Unbinder unbinder;
     FrameLayout framelayout;
     Fragment fragment;
     APIInterface apiInterface;
     FragmentManager fragmentManager;
-    @BindView(R.id.recyclerview_list_booking)
-    RecyclerView recyclerviewListBooking;
-    @BindView(R.id.fab)
-    ImageView fab;
     HomeAdapter adapter;
     @BindView(R.id.cons1)
     ConstraintLayout cons1;
+    @BindView(R.id.image_booking)
+    ImageView imageBooking;
+    @BindView(R.id.text_booking)
+    TextView textBooking;
+    String username;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -80,6 +71,7 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         sessionManager = new SessionManager(getActivity());
         fragmentManager = getActivity().getSupportFragmentManager();
+        getActivity().setTitle("Home");
     }
 
     @Override
@@ -88,43 +80,17 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, view);
-        textviewtop.setText("Selamat Datang " + sessionManager.getUsername());
+        username = sessionManager.getUsername();
         if (sessionManager.getUserID().equals("0")) {
-            recyclerviewListBooking.setVisibility(View.VISIBLE);
-            fab.setVisibility(View.VISIBLE);
-            cons1.setVisibility(View.GONE);
-            buttonOrder.setVisibility(View.GONE);
-            apiInterface = APIClient.getRetrofit().create(APIInterface.class);
-            recyclerviewListBooking.setLayoutManager(new LinearLayoutManager(getActivity()));
-            getData();
+//            cons1.setVisibility(View.GONE);
+            textBooking.setText("Confirmation");
+            imageBooking.setImageResource(R.drawable.ic_verified_user_black_24dp);
         } else {
-            recyclerviewListBooking.setVisibility(View.GONE);
-            fab.setVisibility(View.GONE);
-            cons1.setVisibility(View.VISIBLE);
-            buttonOrder.setVisibility(View.VISIBLE);
+            textBooking.setText("Booking");
+            imageBooking.setImageResource(R.drawable.ic_local_grocery_store_black_24dp);
         }
-        fab.setOnClickListener(v -> {
-            startActivity(new Intent(getActivity(), UploadLapanganActivity.class));
-        });
+
         return view;
-    }
-
-    private void getData() {
-        Call<PojoBookingAdmin> call = apiInterface.getBookingAdmin(sessionManager.getUsername());
-        call.enqueue(new Callback<PojoBookingAdmin>() {
-            @Override
-            public void onResponse(Call<PojoBookingAdmin> call, Response<PojoBookingAdmin> response) {
-                final List<Booking> bookings = response.body().getBooking();
-                adapter = new HomeAdapter(bookings, getContext());
-                recyclerviewListBooking.setAdapter(adapter);
-                Log.i("response", response.body().toString());
-            }
-
-            @Override
-            public void onFailure(Call<PojoBookingAdmin> call, Throwable t) {
-                Toast.makeText(getActivity(), "Maaf, koneksi anda tidak stabil", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override
@@ -135,43 +101,30 @@ public class HomeFragment extends Fragment {
 
     @OnClick(R.id.imagecarabook)
     public void onImagecarabookClicked() {
-        AlertDialog.Builder alertdialogBuilder = new AlertDialog.Builder(getActivity());
-        alertdialogBuilder.setTitle("Cara Booking");
-        alertdialogBuilder.setMessage(R.string.carabookingcaption);
-        alertdialogBuilder.setPositiveButton("OK, Saya Mengerti", (dialog, which) -> dialog.dismiss());
-        alertdialogBuilder.show();
+        if (sessionManager.getUserID().equals("0")) {
+            startActivity(new Intent(getActivity(), ConfirmationActivity.class));
+        } else {
+            fragment = new MenuOrderFragment();
+            fragmentManager.beginTransaction().replace(R.id.framelayout, fragment).commit();
+        }
     }
 
     @OnClick(R.id.imagecarapembayaran)
     public void onImagecarapembayaranClicked() {
-        AlertDialog.Builder alertdialogBuilder = new AlertDialog.Builder(getActivity());
-        alertdialogBuilder.setTitle("Cara Pembayaran");
-        alertdialogBuilder.setMessage(R.string.carapembayarancaption);
-        alertdialogBuilder.setPositiveButton("OK, Saya Mengerti", (dialog, which) -> dialog.dismiss());
-        alertdialogBuilder.show();
+        startActivity(new Intent(getActivity(), NewsActivity.class));
     }
 
     @OnClick(R.id.imagecarapembatalan)
     public void onImagecarapembatalanClicked() {
-        AlertDialog.Builder alertdialogBuilder = new AlertDialog.Builder(getActivity());
-        alertdialogBuilder.setTitle("Cara Pembatalan & Pergantian Jadwal");
-        alertdialogBuilder.setMessage(R.string.carapembatalancaption);
-        alertdialogBuilder.setPositiveButton("OK, Saya Mengerti", (dialog, which) -> dialog.dismiss());
-        alertdialogBuilder.show();
+        startActivity(new Intent(getActivity(), AnnouncementActivity.class));
     }
 
     @OnClick(R.id.imagebiayabooking)
     public void onImagebiayabookingClicked() {
         AlertDialog.Builder alertdialogBuilder = new AlertDialog.Builder(getActivity());
         alertdialogBuilder.setTitle("Biaya Booking");
-        alertdialogBuilder.setMessage(R.string.biayabookingcaption);
+        alertdialogBuilder.setMessage("\t\tBiaya Per-Jam\n\n~ 06.00 - 10.00 = Rp. 50.000\n~ 10.00 - 16.00 = Rp. 75.000\n~ 16.00 - 00.00 = Rp. 100.000\n~ 00.00 - 02.00 = Rp. 75.000\n");
         alertdialogBuilder.setPositiveButton("OK, Saya Mengerti", (dialog, which) -> dialog.dismiss());
         alertdialogBuilder.show();
-    }
-
-    @OnClick(R.id.buttonOrder)
-    public void onButtonOrderClicked() {
-        fragment = new MenuOrderFragment();
-        fragmentManager.beginTransaction().replace(R.id.framelayout, fragment).commit();
     }
 }

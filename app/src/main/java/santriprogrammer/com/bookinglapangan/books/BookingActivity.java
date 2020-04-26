@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +28,7 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import santriprogrammer.com.bookinglapangan.EmptyRecyclerview;
 import santriprogrammer.com.bookinglapangan.R;
 import santriprogrammer.com.bookinglapangan.SessionManager;
 import santriprogrammer.com.bookinglapangan.dialogfragment.TanggalFragment;
@@ -46,12 +46,10 @@ public class BookingActivity extends AppCompatActivity {
     ImageView imageTanggal;
     @BindView(R.id.textview_total)
     TextView textviewTotal;
-    @BindView(R.id.recyclerview_booking)
-    RecyclerView recyclerviewBooking;
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
     SimpleDateFormat dateFormat;
-    String tanggal, jam, kategori;
+    String tanggal, jam, kategori, finalJam;
     int totaljam, totalPrice;
     APIInterface apiInterface;
     BookingAdapter bookingAdapter;
@@ -59,6 +57,8 @@ public class BookingActivity extends AppCompatActivity {
     SessionManager sessionManager;
     List<Lapangan> lapangans;
     Calendar newDate;
+    @BindView(R.id.recyclerview_booking)
+    EmptyRecyclerview recyclerviewBooking;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,11 +81,29 @@ public class BookingActivity extends AppCompatActivity {
     @Subscribe
     public void getTanggal(TanggalEventBus.EventBus bus) {
         tanggal = bus.getTanggal();
-        jam = bus.getJam();
+        jam = bus.getJamjam();
+        finalJam = bus.getJam();
         totaljam = bus.getTotalJam();
-        int totalHarga = 75000 * totaljam;
-        getData(tanggal, jam, totaljam, totalHarga);
-        textviewTotal.setText("Harga Total : " + totalHarga);
+        int totalHarga;
+        if (jam.equals("06") || jam.equals("07") || jam.equals("08") || jam.equals("09") || jam.equals("10")) {
+            totalHarga= 50000 * totaljam;
+            getData(tanggal, finalJam, totaljam, totalHarga);
+            textviewTotal.setText("Harga Total : " + totalHarga);
+        } else if ( jam.equals("11") || jam.equals("12") || jam.equals("13") || jam.equals("14") || jam.equals("15") || jam.equals("16")) {
+            totalHarga= 75000 * totaljam;
+            getData(tanggal, finalJam, totaljam, totalHarga);
+            textviewTotal.setText("Harga Total : " + totalHarga);
+        } else if (jam.equals("17") || jam.equals("18") || jam.equals("19") || jam.equals("20") || jam.equals("21") || jam.equals("22") || jam.equals("23") || jam.equals("00")){
+            totalHarga= 100000 * totaljam;
+            getData(tanggal, finalJam, totaljam, totalHarga);
+            textviewTotal.setText("Harga Total : " + totalHarga);
+        } else if (jam.equals("01") || jam.equals("02") || jam.equals("03") || jam.equals("04") || jam.equals("05")) {
+            totalHarga= 75000 * totaljam;
+            getData(tanggal, finalJam, totaljam, totalHarga);
+            textviewTotal.setText("Harga Total : " + totalHarga);
+        } else {
+            Toast.makeText(this, "Mohon pilih jam terlebih dahulu", Toast.LENGTH_SHORT).show();
+        }
         recyclerviewBooking.setVisibility(View.VISIBLE);
     }
 
@@ -106,10 +124,14 @@ public class BookingActivity extends AppCompatActivity {
         call.enqueue(new Callback<PojoLapangan>() {
             @Override
             public void onResponse(Call<PojoLapangan> call, Response<PojoLapangan> response) {
-                lapangans = response.body().getLapangan();
-                bookingAdapter = new BookingAdapter(lapangans, getApplicationContext(), tanggal, jam, totaljam, sessionManager.getUsername(), kategori, totalHarga);
-                recyclerviewBooking.setAdapter(bookingAdapter);
-                Log.i("response", response.body().toString());
+                try {
+                    lapangans = response.body().getLapangan();
+                    bookingAdapter = new BookingAdapter(lapangans, getApplicationContext(), tanggal, jam , totaljam, sessionManager.getUsername(), kategori, totalHarga);
+                    recyclerviewBooking.setAdapter(bookingAdapter);
+                    Log.i("response", response.body().toString());
+                } catch (Exception e) {
+                    Toast.makeText(BookingActivity.this, "no data", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

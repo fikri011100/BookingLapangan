@@ -71,7 +71,9 @@ public class LoginActivity extends AppCompatActivity {
                     finish();
                 } catch (Exception e) {
                     hideDialog();
-                    Toast.makeText(LoginActivity.this, "maaf, server sedang bermasalah", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Username atau Password anda salah", Toast.LENGTH_SHORT).show();
+                    edittextEmailLogin.setError("Username atau Password anda salah");
+                    edittextPasswordLogin.setError("Username atau Password anda salah");
                     e.printStackTrace();
                 }
             }
@@ -110,12 +112,17 @@ public class LoginActivity extends AppCompatActivity {
 
     @OnClick(R.id.button_register)
     public void onViewClicked() {
-        String email = edittextEmailLogin.getText().toString().trim();
-        String password = edittextPasswordLogin.getText().toString().trim();
-        if (!email.isEmpty() || !password.isEmpty()) {
-            checkLogin(email, password);
+        String email = edittextEmailLogin.getText().toString();
+        String password = edittextPasswordLogin.getText().toString();
+        if (email.equals("") && password.equals("")) {
+            edittextEmailLogin.setError("Email harus diisi");
+            edittextPasswordLogin.setError("Password harus diisi");
+        } else if (email.equals("")){
+            edittextEmailLogin.setError("Email harus diisi");
+        } else if (password.equals("")) {
+            edittextPasswordLogin.setError("Password harus diisi");
         } else {
-            Utils.failAlert(LoginActivity.this, "maaf, email atau password tidak cocok");
+            checkLogin(email, password);
         }
     }
 }

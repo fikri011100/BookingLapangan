@@ -3,17 +3,24 @@
     package="santriprogrammer.com.bookinglapangan">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/logomamensport"
+        android:icon="@drawable/jatiraden"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/logomamensport"
+        android:roundIcon="@drawable/jatiraden"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".UploadLapanganActivity"></activity>
+        <activity android:name=".order.EditLapanganActivity"></activity>
+        <activity android:name=".news.addnews.AddNewsActivity" />
+        <activity android:name=".ConfirmationActivity" />
+        <activity android:name=".announcement.AnnouncementActivity" />
+        <activity android:name=".news.detail.DetailNewsActivity" />
+        <activity android:name=".news.NewsActivity" />
+        <activity android:name=".buktitransfer.UploadBuktiTransferActivity" />
+        <activity android:name=".UploadLapanganActivity" />
         <activity android:name=".books.BookingActivity" />
         <activity
             android:name=".RegisterActivity"

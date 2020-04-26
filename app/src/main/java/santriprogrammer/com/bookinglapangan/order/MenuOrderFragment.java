@@ -3,21 +3,34 @@ package santriprogrammer.com.bookinglapangan.order;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import santriprogrammer.com.bookinglapangan.EmptyRecyclerview;
 import santriprogrammer.com.bookinglapangan.R;
+import santriprogrammer.com.bookinglapangan.SessionManager;
 import santriprogrammer.com.bookinglapangan.books.BookingActivity;
-import santriprogrammer.com.bookinglapangan.home.HomeFragment;
+import santriprogrammer.com.bookinglapangan.retrofit.APIClient;
+import santriprogrammer.com.bookinglapangan.retrofit.APIInterface;
+import santriprogrammer.com.bookinglapangan.retrofit.Lapangan;
+import santriprogrammer.com.bookinglapangan.retrofit.PojoLapangan;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -82,11 +95,26 @@ public class MenuOrderFragment extends Fragment {
     ImageView imageMainTurney;
     @BindView(R.id.image_main_kids)
     ImageView imageMainKids;
+    @BindView(R.id.cons_list_books)
+    ConstraintLayout consListBooks;
+    APIInterface apiInterface;
+    MenuOrderFragmentAdapter adapter;
+    @BindView(R.id.recyclerview_list_lapangan)
+    EmptyRecyclerview recyclerviewListLapangan;
+    @BindView(R.id.fab)
+    ImageView fab;
 
     public MenuOrderFragment() {
         // Required empty public constructor
     }
 
+    SessionManager sessionManager;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        sessionManager = new SessionManager(getActivity());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -94,8 +122,48 @@ public class MenuOrderFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_menu_order, container, false);
         unbinder = ButterKnife.bind(this, view);
-        setView();
+        if (sessionManager.getUserID().equals("0")) {
+            getActivity().setTitle("Lapangan");
+            consListBooks.setVisibility(View.GONE);
+            fab.setVisibility(View.VISIBLE);
+            recyclerviewListLapangan.setVisibility(View.VISIBLE);
+            setRecycler();
+        } else {
+            getActivity().setTitle("Menu Order");
+            recyclerviewListLapangan.setVisibility(View.GONE);
+            fab.setVisibility(View.GONE);
+            setView();
+        }
+        fab.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), EditLapanganActivity.class));
+        });
         return view;
+    }
+
+    private void setRecycler() {
+        recyclerviewListLapangan.setLayoutManager(new LinearLayoutManager(getActivity()));
+        apiInterface = APIClient.getRetrofit().create(APIInterface.class);
+        Call<PojoLapangan> call = apiInterface.getLapangan();
+        call.enqueue(new Callback<PojoLapangan>() {
+            @Override
+            public void onResponse(Call<PojoLapangan> call, Response<PojoLapangan> response) {
+                try {
+                    final List<Lapangan> lapangans = response.body().getLapangan();
+                    adapter = new MenuOrderFragmentAdapter(lapangans, getContext());
+                    recyclerviewListLapangan.setAdapter(adapter);
+                    if (adapter.getItemCount() == 0) {
+                        Toast.makeText(getActivity(), "Tidak ada Lapangan", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(getContext(), "no data", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PojoLapangan> call, Throwable t) {
+                Toast.makeText(getActivity(), "Maaf, koneksi anda tidak stabil", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setView() {

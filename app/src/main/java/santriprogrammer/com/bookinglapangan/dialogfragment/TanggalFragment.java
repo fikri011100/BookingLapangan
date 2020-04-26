@@ -11,8 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -48,8 +50,11 @@ public class TanggalFragment extends DialogFragment {
     @BindView(R.id.textview_increase)
     TextView textviewIncrease;
     int totalJam;
+    @BindView(R.id.text_caption_spinner)
+    TextView textCaptionSpinner;
     @BindView(R.id.timepicker)
-    EditText timepicker;
+    TimePicker timepicker;
+    private Spinner spinner;
 
     public TanggalFragment() {
         // Required empty public constructor
@@ -70,14 +75,19 @@ public class TanggalFragment extends DialogFragment {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
             Calendar calendar = Calendar.getInstance();
             calendar.set(datepicker.getYear(), datepicker.getMonth(), datepicker.getDayOfMonth());
-            String hour =  "";
-            int edt = Integer.parseInt(timepicker.getText().toString());
-            if (edt < 10) {
-                hour = "0" + timepicker.getText().toString();
+            calendar.get(Calendar.HOUR_OF_DAY);
+            calendar.get(Calendar.MINUTE);
+            String hour = String.valueOf(timepicker.getHour());
+            if (timepicker.getHour() < 10) {
+                hour = "0" + timepicker.getHour();
             }
+            String min = String.valueOf(timepicker.getMinute());
+            if (timepicker.getMinute() < 10)
+                min = "0" + timepicker.getMinute();
             String date = dateFormat.format(calendar.getTime());
-            String finalhour = hour + ":00";
-            EventBus.getDefault().post(new TanggalEventBus.EventBus(date, finalhour, totalJam));
+            String finalhour = hour + ":" + min;
+//            Toast.makeText(getContext(), finalhour, Toast.LENGTH_SHORT).show();
+            EventBus.getDefault().post(new TanggalEventBus.EventBus(date, finalhour, totalJam, hour));
             dismiss();
         });
         return view;
@@ -107,11 +117,13 @@ public class TanggalFragment extends DialogFragment {
     public void onButtonSelectTanggalClicked() {
         datepicker.setVisibility(View.VISIBLE);
         timepicker.setVisibility(View.INVISIBLE);
+        textCaptionSpinner.setVisibility(View.INVISIBLE);
     }
 
     @OnClick(R.id.button_select_jam)
     public void onButtonSelectJamClicked() {
         timepicker.setVisibility(View.VISIBLE);
+        textCaptionSpinner.setVisibility(View.VISIBLE);
         datepicker.setVisibility(View.INVISIBLE);
     }
 }
