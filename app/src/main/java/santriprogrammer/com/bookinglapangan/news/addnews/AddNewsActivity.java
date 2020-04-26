@@ -90,7 +90,7 @@ public class AddNewsActivity extends AppCompatActivity {
             filePathAccount = data.getData();
             try {
                 String uploadId = UUID.randomUUID().toString();
-                String urlImageServer = "http://api.santriprogrammer.com/bookinglapangan/uploadNews.php";
+                String urlImageServer = "http://fikri.akudeveloper.com/bookinglapangan/uploadNews.php";
 //                String urlImageServer = AppConfig.BASE_URL + "upload_lapangan_gambar.php";
                 new MultipartUploadRequest(this, uploadId, urlImageServer)
                         .addFileToUpload(getPath(filePathAccount), "news_image")

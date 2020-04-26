@@ -87,14 +87,19 @@ public class NewsActivity extends AppCompatActivity {
         call.enqueue(new Callback<PojoNews>() {
             @Override
             public void onResponse(Call<PojoNews> call, Response<PojoNews> response) {
+
                 final List<News> bookings = response.body().getNews();
-                adapter = new AdapterNews(bookings, getApplicationContext(), sessionManager.getUserID());
-                recyclerNews.setAdapter(adapter);
-                if (adapter.getItemCount() == 0) {
+                if (response.body().getNews() != null) {
+                    adapter = new AdapterNews(bookings, getApplicationContext(), sessionManager.getUserID());
+                    recyclerNews.setAdapter(adapter);
+                    if (adapter.getItemCount() == 0) {
+                        Toast.makeText(getApplicationContext(), "Tidak ada Berita", Toast.LENGTH_SHORT).show();
+                    }
+                    adapter.notifyDataSetChanged();
+                    Log.i("response", response.body().toString());
+                } else {
                     Toast.makeText(getApplicationContext(), "Tidak ada Berita", Toast.LENGTH_SHORT).show();
                 }
-                adapter.notifyDataSetChanged();
-                Log.i("response", response.body().toString());
             }
 
             @Override
@@ -103,6 +108,7 @@ public class NewsActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();

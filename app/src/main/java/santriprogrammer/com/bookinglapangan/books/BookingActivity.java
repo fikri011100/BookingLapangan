@@ -124,10 +124,14 @@ public class BookingActivity extends AppCompatActivity {
         call.enqueue(new Callback<PojoLapangan>() {
             @Override
             public void onResponse(Call<PojoLapangan> call, Response<PojoLapangan> response) {
-                lapangans = response.body().getLapangan();
-                bookingAdapter = new BookingAdapter(lapangans, getApplicationContext(), tanggal, jam , totaljam, sessionManager.getUsername(), kategori, totalHarga);
-                recyclerviewBooking.setAdapter(bookingAdapter);
-                Log.i("response", response.body().toString());
+                try {
+                    lapangans = response.body().getLapangan();
+                    bookingAdapter = new BookingAdapter(lapangans, getApplicationContext(), tanggal, jam , totaljam, sessionManager.getUsername(), kategori, totalHarga);
+                    recyclerviewBooking.setAdapter(bookingAdapter);
+                    Log.i("response", response.body().toString());
+                } catch (Exception e) {
+                    Toast.makeText(BookingActivity.this, "no data", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

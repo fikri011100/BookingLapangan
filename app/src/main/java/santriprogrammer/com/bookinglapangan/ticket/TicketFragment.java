@@ -75,13 +75,17 @@ public class TicketFragment extends Fragment {
         call.enqueue(new Callback<PojoTicket>() {
             @Override
             public void onResponse(Call<PojoTicket> call, Response<PojoTicket> response) {
-                final List<Booking> bookings = response.body().getBooking();
-                adapter = new TicketAdapter(bookings, getContext(), sessionManager.getUserID());
-                recyclerviewTicket.setAdapter(adapter);
-                if (adapter.getItemCount() == 0) {
+                try {
+                    final List<Booking> bookings = response.body().getBooking();
+                    adapter = new TicketAdapter(bookings, getContext(), sessionManager.getUserID());
+                    recyclerviewTicket.setAdapter(adapter);
+                    if (adapter.getItemCount() == 0) {
+                        Toast.makeText(getActivity(), "Tidak ada Ticket", Toast.LENGTH_SHORT).show();
+                    }
+                    Log.i("response", response.body().toString());
+                } catch (Exception e) {
                     Toast.makeText(getActivity(), "Tidak ada Ticket", Toast.LENGTH_SHORT).show();
                 }
-                Log.i("response", response.body().toString());
             }
 
             @Override

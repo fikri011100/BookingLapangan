@@ -147,11 +147,15 @@ public class MenuOrderFragment extends Fragment {
         call.enqueue(new Callback<PojoLapangan>() {
             @Override
             public void onResponse(Call<PojoLapangan> call, Response<PojoLapangan> response) {
-                final List<Lapangan> lapangans = response.body().getLapangan();
-                adapter = new MenuOrderFragmentAdapter(lapangans, getContext());
-                recyclerviewListLapangan.setAdapter(adapter);
-                if (adapter.getItemCount() == 0) {
-                    Toast.makeText(getActivity(), "Tidak ada Lapangan", Toast.LENGTH_SHORT).show();
+                try {
+                    final List<Lapangan> lapangans = response.body().getLapangan();
+                    adapter = new MenuOrderFragmentAdapter(lapangans, getContext());
+                    recyclerviewListLapangan.setAdapter(adapter);
+                    if (adapter.getItemCount() == 0) {
+                        Toast.makeText(getActivity(), "Tidak ada Lapangan", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(getContext(), "no data", Toast.LENGTH_SHORT).show();
                 }
             }
 

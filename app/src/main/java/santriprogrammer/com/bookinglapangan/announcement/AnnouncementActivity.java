@@ -45,14 +45,18 @@ public class AnnouncementActivity extends AppCompatActivity {
         call.enqueue(new Callback<PojoAllBooking>() {
             @Override
             public void onResponse(Call<PojoAllBooking> call, Response<PojoAllBooking> response) {
-                final List<Booking> bookings = response.body().getBooking();
-                adapter = new AdapterAnnouncement(bookings, getApplicationContext());
-                recyclerAnnouncement.setAdapter(adapter);
-                if (adapter.getItemCount() == 0) {
+                try {
+                    final List<Booking> bookings = response.body().getBooking();
+                    adapter = new AdapterAnnouncement(bookings, getApplicationContext());
+                    recyclerAnnouncement.setAdapter(adapter);
+                    if (adapter.getItemCount() == 0) {
+                        Toast.makeText(getApplicationContext(), "Tidak ada Berita", Toast.LENGTH_SHORT).show();
+                    }
+                    adapter.notifyDataSetChanged();
+                    Log.i("response", response.body().toString());
+                } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "Tidak ada Berita", Toast.LENGTH_SHORT).show();
                 }
-                adapter.notifyDataSetChanged();
-                Log.i("response", response.body().toString());
             }
 
             @Override

@@ -122,8 +122,8 @@ public class HomeFragment extends Fragment {
     @OnClick(R.id.imagebiayabooking)
     public void onImagebiayabookingClicked() {
         AlertDialog.Builder alertdialogBuilder = new AlertDialog.Builder(getActivity());
-        alertdialogBuilder.setTitle("Warning");
-        alertdialogBuilder.setMessage("Fitur ini masih dalam pengembangan");
+        alertdialogBuilder.setTitle("Biaya Booking");
+        alertdialogBuilder.setMessage("\t\tBiaya Per-Jam\n\n~ 06.00 - 10.00 = Rp. 50.000\n~ 10.00 - 16.00 = Rp. 75.000\n~ 16.00 - 00.00 = Rp. 100.000\n~ 00.00 - 02.00 = Rp. 75.000\n");
         alertdialogBuilder.setPositiveButton("OK, Saya Mengerti", (dialog, which) -> dialog.dismiss());
         alertdialogBuilder.show();
     }
